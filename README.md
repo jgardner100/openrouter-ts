@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is an AI-powered command-line agent built with TypeScript that leverages Claude AI (via OpenRouter) to execute file operations and shell commands. The agent can read files, write files, and execute bash commands based on natural language instructions.
+This is an AI-powered command-line agent built with Rust that leverages Claude AI (via OpenRouter) to execute file operations and shell commands. The agent can read files, write files, and execute bash commands based on natural language instructions.
 
 ## What It Does
 
@@ -15,40 +15,6 @@ The application implements an agentic loop that:
    - **Write files** - Create or modify files with specific content
    - **Execute bash commands** - Run shell commands for filesystem operations
 4. **Iterates intelligently** - Continues the conversation loop for up to 10 iterations, allowing Claude to refine requests and achieve complex tasks
-
-## How It Works
-
-### Architecture
-
-The agent follows a standard agentic pattern:
-
-```
-User Prompt → Claude AI → Tool Calls → Tool Execution → Results → Claude Response → Output
-```
-
-### Key Components
-
-#### Tool Definitions
-Three tools are defined for Claude to use:
-
-- **Read Tool** - Reads and returns file contents
-- **Write Tool** - Writes content to files (creates directories as needed)
-- **Bash Tool** - Executes shell commands with full output capture
-
-#### Tool Call Handling
-
-The application normalizes tool calls from different AI providers:
-- **OpenAI/OpenRouter format** - `message.tool_calls[].function.name|arguments`
-- **Claude format** - Content blocks with `type: "tool_use"`
-
-#### Execution Loop
-
-1. Sends user prompt + message history to Claude
-2. Receives response with potential tool calls
-3. Extracts and validates tool calls
-4. Executes each tool call and captures results
-5. Appends tool results to message history
-6. Repeats until Claude provides a final text response or max iterations reached (10)
 
 ### Usage
 
@@ -95,11 +61,6 @@ The application includes robust error handling for:
 - Exceeding maximum iteration limit (10)
 
 All errors are caught and printed to stderr with a non-zero exit code.
-
-## Dependencies
-
-- **OpenAI SDK** - For API communication (works with OpenRouter)
-- **Node.js built-ins** - `child_process`, `fs`, `path`
 
 ## Limitations
 
